@@ -57,7 +57,7 @@ def save_to_database(filename , file_path):
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
     #print(f"Saving file to: {file.filename}")
-    file_path = r"C:/Dev/DocumentSummariser/api/libirary/uploads/{}".format(file.filename)
+    file_path = r"C:\Dev\sum-doc\services\uploads\{}".format(file.filename)
 
     #file_path = f"uploads/"
     

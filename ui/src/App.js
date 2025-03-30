@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import Login from "./Login";
-import Dashboard from "./Dashboard";
+import HomePage from "./HomePage";
+import Login from "./Login"; // Assuming you have a Login component
 
-const App = () => {
-  const [user, setUser] = useState(null);
+function App() {
+  const [showLogin, setShowLogin] = useState(false);
 
-  return <>{user ? <Dashboard /> : <Login onLogin={setUser} />}</>;
-};
+  return (
+    <>
+      {showLogin ? <Login /> : <HomePage onLoginClick={() => setShowLogin(true)} />}
+    </>
+  );
+}
 
 export default App;
