@@ -4,6 +4,7 @@ import "./Login.css"
 import { Container, TextField, Button, Typography, Paper, Box } from "@mui/material";
 import { styled } from "@mui/system";
 import { Global } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 
 const LoginBox = styled(Paper)(({ theme }) => ({
   padding: "2rem",
@@ -19,6 +20,7 @@ const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,15 +28,19 @@ const Login = ({ onLogin }) => {
     const loginData = { username, password };
 
     try {
-      const response = await fetch("http://localhost:8000/api/login", {
+      const response = await fetch("http://127.0.0.1:8000/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(loginData),
       });
 
       const data = await response.json();
+    
       if (response.ok) {
-        onLogin(data); // Pass user data to parent
+        alert(data)
+        //onLogin(data); 
+        navigate("/dashboard");
+        // Pass user data to parent
       } else {
         setError(data.message || "Invalid credentials. Please try again.");
       }
