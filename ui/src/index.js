@@ -5,6 +5,7 @@ import App from "./App";
 import Login from "./Login";
 import Dashboard from "./Dashboard";
 import HeroSection from "./components/HeroSection";
+import Signup from "./Signup";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,6 +16,8 @@ root.render(
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/home" element={<App />} />
+        <Route path="/signup" element={<Signup/>} />
+        
       </Routes>
     </Router>
   </React.StrictMode>

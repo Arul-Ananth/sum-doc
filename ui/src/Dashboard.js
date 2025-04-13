@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import ResponsiveAppBar from "./components/ResponsiveAppBar";
 
 function App() {
   const [file, setFile] = useState(null);
@@ -29,12 +30,15 @@ function App() {
   };
 
   return (
+    <>
+    <ResponsiveAppBar/>
     <div>
       <h1 >AI POWERED DOCUMENT SUMMARISER</h1>
       <h2>Upload a Document</h2>
       <input type="file" onChange={handleFileChange} />
       <button onClick={uploadFile}>Upload</button>
     </div>
+    </>
   );
 }
 

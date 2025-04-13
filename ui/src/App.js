@@ -5,10 +5,12 @@ import HeroSection from "./components/HeroSection";
 import FeaturesSection from "./components/FeaturesSection";
 import Upload from "./components/Upload";
 import WhyChooseUs from "./components/WhyChooseUs";
+import ResponsiveAppBar from "./components/ResponsiveAppBar";
 
 const App = () => {
   return (
     <Container maxWidth="lg">
+      <ResponsiveAppBar/>
       <HeroSection />
       <FeaturesSection />
       {/*<Upload />*/}

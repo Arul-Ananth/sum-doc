@@ -11,6 +11,14 @@ app = FastAPI()
 
 UPLOAD_DIR = "uploads"
 
+def get_db_connection():
+    return mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="admin",
+        database="ananth"
+    )
+
 # Ensure the "uploads" directory exists
 if not os.path.exists(UPLOAD_DIR):
     os.makedirs(UPLOAD_DIR)
@@ -29,6 +37,32 @@ class LoginRequest(BaseModel):
     username: str
     password: str
 
+class SignupRequest(BaseModel):
+    username: str
+    email: str
+    password: str
+
+
+# Login Route (No Password Hashing)
+@app.post("/login")
+def login(user: LoginRequest):
+    db = get_db_connection()
+    cursor = db.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM users WHERE username = %s AND password = %s", 
+                   (user.username, user.password))
+    result = cursor.fetchone()
+    print ( result)
+    
+    db.close()
+
+    if not result:
+        raise HTTPException(status_code=401, detail="Invalid username or password")
+
+    return {"message": "Login successful", "user": result}
+
+
+@DeprecationWarning
 @app.post("/api/login")
 def login(user: LoginRequest):
     if user.username in users and users[user.username] == user.password:
@@ -53,6 +87,23 @@ def save_to_database(filename , file_path):
     conn.commit()
     cursor.close()
     conn.close()
+
+
+# Signup Route
+@app.post("/signup")
+def signup(user: SignupRequest):
+    db = get_db_connection()
+    cursor = db.cursor()
+
+    try:
+        cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", 
+                       (user.username, user.email, user.password))
+        db.commit()
+    except mysql.connector.Error as err:
+        raise HTTPException(status_code=400, detail="User already exists")
+
+    db.close()
+    return {"message": "User registered successfully"}   
 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
